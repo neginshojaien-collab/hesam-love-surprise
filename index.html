@@ -3,144 +3,132 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#F8DDE7">
-<title>💎 یه چیز مخصوص برای حسام</title>
+<meta name="theme-color" content="#1b0a14">
+<title>یه چیز مخصوص برای حسام 💎</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💎</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;700;900&display=swap" rel="stylesheet">
 <style>
 :root{
-  --pink:#F8DDE7; --pink-deep:#D96A94; --pink-dark:#B84A78;
-  --gold:#D4AF37; --gold-soft:#F1DC95; --cream:#FFF9F6; --ink:#6B4150;
+  --velvet-0:#14060e;
+  --velvet-1:#2a0d1e;
+  --gold:#e6c887;
+  --gold-dim:rgba(230,200,135,.55);
+  --rose:#ff7ab3;
+  --ink:#fbeef3;
+  --mute:#c9a6b8;
+  --glow:0;
 }
 *{box-sizing:border-box}
-html,body{margin:0}
+html,body{height:100%;margin:0;overflow:hidden;background:var(--velvet-0);overscroll-behavior:none}
 body{
   font-family:'Vazirmatn',Tahoma,system-ui,sans-serif;
-  color:var(--ink); line-height:1.9;
-  background:radial-gradient(circle at 20% 10%,#fff 0,transparent 40%),
-             linear-gradient(160deg,var(--pink),var(--cream) 60%,var(--pink));
-  background-attachment:fixed; min-height:100svh; overflow-x:hidden;
+  color:var(--ink);line-height:1.8;
+  -webkit-tap-highlight-color:transparent;touch-action:manipulation;
 }
-button{font-family:inherit;cursor:pointer;border:0}
-:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
+:focus-visible{outline:2px solid var(--gold);outline-offset:4px}
 
-/* tiny drifting diamonds in the background */
-#bg{position:fixed;inset:0;pointer-events:none;z-index:0}
-#bg i{position:absolute;color:var(--gold);opacity:.35;font-style:normal;animation:drift linear infinite}
-@keyframes drift{from{transform:translateY(0) rotate(0)}to{transform:translateY(-110vh) rotate(180deg)}}
-
-.page{display:none;position:relative;z-index:1;min-height:100svh;padding:28px 16px 40px;align-items:center;justify-content:center;flex-direction:column}
-.page.active{display:flex;animation:pageIn .8s ease both}
-@keyframes pageIn{from{opacity:0;filter:blur(8px);transform:scale(.97)}to{opacity:1;filter:none;transform:none}}
-
-.card{
-  width:100%;max-width:470px;text-align:center;
-  background:rgba(255,255,255,.66);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
-  border:2px solid var(--gold);border-radius:30px;padding:30px 24px 28px;
-  box-shadow:0 0 0 6px rgba(212,175,55,.12),0 24px 60px rgba(217,106,148,.22);
+/* one fixed stage: a jeweller's display case lit from above */
+.stage{
+  position:fixed;inset:0;height:100vh;height:100dvh;
+  background:
+    radial-gradient(70% 46% at 50% calc(34% - var(--glow)*4%),rgba(255,122,179,calc(.16 + var(--glow)*.22)),transparent 70%),
+    linear-gradient(var(--velvet-1),var(--velvet-0));
+  transition:background .6s;
 }
-.card p{margin:.15em 0}
-.crown{font-size:2.2rem;line-height:1}
-.gem-s{width:64px;height:58px;display:block;margin:2px auto 14px;filter:drop-shadow(0 0 10px rgba(255,120,180,.7));animation:glow 2.4s ease-in-out infinite}
-@keyframes glow{50%{filter:drop-shadow(0 0 20px rgba(255,100,170,.95))}}
-.typed p{min-height:1.9em;font-size:1.08rem}
-.caret::after{content:'';display:inline-block;width:2px;height:1.1em;background:var(--gold);margin-inline-start:3px;vertical-align:middle;animation:blink .8s steps(1) infinite}
-@keyframes blink{50%{opacity:0}}
 
+.scene{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:clamp(10px,2.3dvh,22px);
+  padding:max(20px,env(safe-area-inset-top)) 24px max(20px,env(safe-area-inset-bottom));
+  text-align:center;
+  opacity:0;visibility:hidden;
+  transition:opacity .7s,visibility 0s .7s;
+}
+.scene.on{opacity:1;visibility:visible;transition:opacity .7s}
+
+h1{margin:0;font-weight:900;font-size:clamp(1.55rem,7vw,2.15rem);line-height:1.35}
+p{margin:0}
+.sub{color:var(--mute);font-weight:300;font-size:clamp(.95rem,4vw,1.05rem)}
+
+/* ---- gem ---- */
+.gemwrap{position:relative;width:min(46vw,27dvh)}
+.gem{display:block;width:100%;height:auto;overflow:visible;
+  filter:drop-shadow(0 0 14px rgba(255,110,175,.6));
+  animation:breathe 3.6s ease-in-out infinite}
+@keyframes breathe{50%{filter:drop-shadow(0 0 calc(22px + var(--glow)*24px) rgba(255,110,175,.95))}}
+.rise{animation:rise 1.5s cubic-bezier(.2,.8,.2,1) both}
+@keyframes rise{from{opacity:0;transform:translateY(26px) scale(.9)}to{opacity:1;transform:none}}
+.gem-sm{width:84px}
+
+/* ---- buttons ---- */
 .btn{
-  margin-top:22px;padding:14px 26px;border-radius:999px;font-size:1.05rem;font-weight:700;
-  transition:transform .2s,box-shadow .2s;
+  min-width:min(78vw,300px);padding:14px 26px;border-radius:999px;
+  font-weight:700;font-size:1.02rem;transition:transform .25s,opacity .5s,background .3s;
 }
-.btn:hover{transform:translateY(-2px) scale(1.03)}
-.btn-gold{color:#4A2C1A;background:linear-gradient(120deg,#F3DE8E,var(--gold) 45%,#F6E7A8 60%,var(--gold));background-size:220% 100%;animation:shine 2.8s linear infinite;box-shadow:0 8px 22px rgba(212,175,55,.5)}
-@keyframes shine{to{background-position:-220% 0}}
-.btn-pink{color:#fff;background:linear-gradient(135deg,#EE8DB3,var(--pink-deep));box-shadow:0 8px 22px rgba(217,106,148,.45)}
-.btn-ghost{color:var(--ink);background:rgba(255,255,255,.85);border:1.5px solid var(--gold)}
-.hidden{opacity:0;pointer-events:none;transform:translateY(8px)}
-.btn.show{opacity:1;pointer-events:auto;transform:none;transition:opacity .6s,transform .6s}
+.btn:active{transform:scale(.97)}
+.btn-gold{background:var(--gold);color:#2a0d1e;box-shadow:0 10px 30px -10px rgba(230,200,135,.6)}
+.btn-line{box-shadow:inset 0 0 0 1.5px var(--gold-dim);color:var(--ink)}
+.later{opacity:0;pointer-events:none}
+.later.show{opacity:1;pointer-events:auto}
 
-/* sparkles from buttons */
-.fx{position:fixed;z-index:60;pointer-events:none;font-size:1.3rem;animation:fly .95s ease-out forwards}
-@keyframes fly{to{transform:translate(var(--dx),var(--dy)) rotate(260deg) scale(.3);opacity:0}}
+/* ---- scene 2: appraisal ---- */
+.spot{position:absolute;width:48px;height:48px;transform:translate(-50%,-50%);display:grid;place-items:center}
+.spot::before{content:'';width:11px;height:11px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 0 rgba(230,200,135,.7);animation:ping 1.8s ease-out infinite}
+.spot.done::before{animation:none;background:transparent;box-shadow:inset 0 0 0 2px var(--gold)}
+@keyframes ping{to{box-shadow:0 0 0 16px rgba(230,200,135,0)}}
+.specs{width:min(86vw,340px);display:grid;gap:clamp(6px,1.6dvh,12px)}
+.spec{opacity:0;transform:translateY(6px);transition:opacity .5s,transform .5s;
+  padding-bottom:clamp(6px,1.4dvh,10px);border-bottom:1px solid rgba(230,200,135,.22)}
+.spec.show{opacity:1;transform:none}
+.spec small{display:block;color:var(--gold);font-weight:300;font-size:.8rem;line-height:1.5}
+.spec span{font-weight:700;font-size:1.02rem}
+.hint{min-height:1.8em;color:var(--mute);font-weight:300;font-size:.95rem}
 
-/* ---------- page 2 ---------- */
-.rv{opacity:0}
-.page.active .rv{animation:rvIn .9s both;animation-delay:var(--d,0s)}
-@keyframes rvIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
-.box{position:relative;width:230px;height:170px;margin:78px auto 6px;perspective:700px}
-.inside{position:absolute;top:0;left:6px;right:6px;height:64px;border-radius:14px 14px 0 0;background:linear-gradient(#a8426c,#e48bb0)}
-.gemwrap{position:absolute;left:50%;top:8px;width:86px;margin-left:-43px;z-index:2;opacity:0}
-.gemwrap svg{width:100%;display:block;filter:drop-shadow(0 0 14px rgba(255,110,175,.9))}
-.base{position:absolute;top:58px;left:0;right:0;bottom:0;z-index:3;border-radius:6px 6px 24px 24px;border-top:4px solid var(--gold);
-  background:repeating-linear-gradient(135deg,rgba(255,255,255,.07) 0 6px,transparent 6px 12px),linear-gradient(160deg,#F6AFCB,#D9689A);
-  box-shadow:0 18px 30px rgba(184,74,120,.35)}
-.base span{position:absolute;inset:0;display:grid;place-items:center;font-size:2.6rem;padding-top:6px}
-.lid{position:absolute;top:0;left:0;right:0;height:64px;z-index:4;transform-origin:top center;border-radius:24px 24px 6px 6px;border-bottom:4px solid var(--gold);
-  background:linear-gradient(#FAC9DC,#EE95B9)}
-.page.active .lid{animation:lidOpen 1.1s .6s ease-in-out forwards}
-@keyframes lidOpen{0%{transform:rotateX(0);z-index:4}45%{z-index:4}46%{z-index:1}100%{transform:rotateX(-115deg);z-index:1}}
-.page.active .gemwrap{animation:rise 1.2s 1.3s cubic-bezier(.2,.9,.3,1.2) forwards,float 3s 2.5s ease-in-out infinite}
-@keyframes rise{from{opacity:0;transform:translateY(34px) scale(.6)}to{opacity:1;transform:translateY(-64px) scale(1)}}
-@keyframes float{0%,100%{opacity:1;transform:translateY(-64px)}50%{opacity:1;transform:translateY(-74px)}}
-.badge{display:inline-block;padding:3px 18px;border-radius:999px;border:1.5px solid var(--gold);color:#8A6A10;font-weight:700;background:rgba(255,255,255,.7);margin-bottom:10px;letter-spacing:.08em;direction:ltr}
-.feat{list-style:none;padding:0;margin:14px 0;text-align:right}
-.feat li{padding:5px 14px;margin:6px 0;background:rgba(255,255,255,.7);border-radius:14px;border-inline-start:4px solid var(--gold)}
-.cert{margin-top:18px;padding:18px 16px;text-align:right;border-radius:18px;background:linear-gradient(#fffdf6,#fff6dc);
-  border:3px double var(--gold);box-shadow:inset 0 0 0 5px rgba(255,255,255,.7)}
-.cert h3{margin:0 0 8px;text-align:center;font-size:1rem;color:#8A6A10;direction:ltr;letter-spacing:.06em}
-.cert dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:2px 12px;font-size:.95rem}
-.cert dt{color:#8A6A10;font-weight:700}.cert dd{margin:0}
-.note{font-size:.92rem;opacity:.85}
+/* ---- scene 3: the question ---- */
+#msg{min-height:3.4em;display:grid;place-items:center;width:min(86vw,340px);font-weight:400;color:var(--gold);font-size:1.02rem}
+#msg.swap{animation:swap .45s both}
+@keyframes swap{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.choices{display:flex;flex-direction:column;align-items:center;gap:12px}
+#yes{animation:halo 2.4s ease-in-out infinite}
+@keyframes halo{50%{box-shadow:0 12px 40px -4px rgba(230,200,135,.9)}}
+#no{transition:transform .25s,opacity .5s,background .3s,box-shadow .3s,color .3s}
+#no.flip{background:var(--gold);color:#2a0d1e;box-shadow:none}
 
-/* ---------- page 3 ---------- */
-.heart3d{width:120px;height:112px;margin:0 auto 6px;perspective:500px}
-.heart3d svg{width:100%;height:100%;animation:spin 7s linear infinite,beat 1.3s ease-in-out infinite;filter:drop-shadow(0 12px 14px rgba(217,106,148,.45))}
-@keyframes spin{to{transform:rotateY(360deg)}}
-@keyframes beat{50%{scale:1.08}}
-.kicker{font-weight:900;font-size:1.15rem;color:var(--pink-dark);margin-bottom:6px}
-.q{font-weight:700;font-size:1.15rem;margin-top:14px!important}
-.choices{display:flex;flex-direction:column;gap:12px;align-items:center;margin-top:18px}
-.choices .btn{margin:0;transition:all .35s cubic-bezier(.3,1.4,.5,1);max-width:100%}
-#yes{font-size:1.05rem}
-#yes.full{position:fixed;inset:0;z-index:40;border-radius:0;font-size:clamp(2rem,9vw,4.4rem);display:flex;align-items:center;justify-content:center;width:100%;padding:0;animation:none}
-#msg{min-height:2.6em;margin-top:14px;font-weight:700;color:var(--pink-dark);font-size:1.05rem}
-#msg.pop{animation:pop .4s}
-#msg.over{position:fixed;top:12%;left:0;right:0;z-index:50;color:#fff;font-size:1.5rem;padding:0 16px;text-shadow:0 2px 12px rgba(120,20,70,.5)}
-@keyframes pop{0%{transform:scale(.7);opacity:0}70%{transform:scale(1.08)}100%{transform:none;opacity:1}}
+/* ---- scene 4: diagnosis + finale ---- */
+.ring{position:relative;width:118px;height:118px;display:grid;place-items:center}
+.ring svg.r{position:absolute;inset:0;transform:rotate(-90deg)}
+.ring circle{fill:none;stroke-width:2.5}
+.ring .bg{stroke:rgba(230,200,135,.18)}
+.ring .fg{stroke:var(--gold);stroke-linecap:round;stroke-dasharray:339.3;stroke-dashoffset:339.3}
+.ring .gem{width:54px;animation:none;filter:drop-shadow(0 0 10px rgba(255,110,175,.8))}
+.swapbox{display:grid;justify-items:center;width:100%}
+.swapbox>*{grid-area:1/1;transition:opacity .6s}
+.swapbox .off{opacity:0;pointer-events:none}
+.status{color:var(--gold);font-weight:700;min-height:1.8em}
+.gold{color:var(--gold)}
+#finale{display:none;flex-direction:column;align-items:center;gap:clamp(10px,2.2dvh,18px)}
+#finale.show{display:flex;animation:swap .9s both}
+.care{list-style:none;margin:0;padding:0;width:min(84vw,330px);font-size:.98rem}
+.care li{padding:7px 0;border-bottom:1px solid rgba(230,200,135,.22)}
+.care li:last-child{border:0;font-weight:700;color:var(--gold)}
+.sign{color:var(--mute);font-weight:300;font-size:.82rem}
+#diag.gone{display:none}
 
-/* ---------- page 4 ---------- */
-#dark{position:fixed;inset:0;z-index:30;background:rgba(20,6,14,.9);opacity:0;pointer-events:none;transition:opacity .7s}
-#dark.on{opacity:1;pointer-events:auto}
-#popup{display:none;position:relative;z-index:35;width:100%;max-width:440px;background:#fff;border-radius:16px;overflow:hidden;border:2px solid var(--gold);box-shadow:0 30px 80px rgba(0,0,0,.55)}
-#popup.show{display:block;animation:pop .45s}
-.bar-title{display:flex;align-items:center;gap:6px;padding:10px 14px;background:linear-gradient(120deg,#C95A87,#E88AB1);color:#fff;font-weight:700}
-.bar-title b{display:flex;gap:5px;margin-inline-start:auto;direction:ltr}
-.bar-title b i{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.75)}
-.pop-body{padding:20px 20px 24px;text-align:center}
-.checks{list-style:none;padding:0;margin:0 0 14px;text-align:right}
-.checks li{padding:4px 0;opacity:.35;transition:opacity .3s}
-.checks li.on{opacity:1;font-weight:700}
-.checks li.done::after{content:' ✅'}
-.track{height:16px;border-radius:99px;background:#F5E3EB;overflow:hidden;border:1px solid #EAC6D5}
-#fill{height:100%;width:0;background:linear-gradient(90deg,var(--pink-deep),var(--gold))}
-#pct{margin-top:6px;font-weight:700;color:var(--pink-dark)}
-#result{display:none}
-#result.show{display:block}
-#result .l{opacity:0;animation:rvIn .7s both}
-.res-title{font-weight:900;color:#C0392B;font-size:1.1rem}
-.res-main{font-size:1.15rem;font-weight:700;margin:8px 0}
+/* ---- little effects ---- */
+.fx{position:fixed;z-index:60;pointer-events:none;color:var(--gold);font-size:1.1rem;animation:fly .9s ease-out forwards}
+@keyframes fly{to{transform:translate(var(--dx),var(--dy)) rotate(200deg) scale(.3);opacity:0}}
+#rain{position:fixed;inset:0;pointer-events:none;overflow:hidden}
+#rain i{position:absolute;bottom:-30px;font-style:normal;opacity:.5;animation:up linear infinite}
+@keyframes up{to{transform:translateY(-112dvh) rotate(var(--r,120deg))}}
 
-#finale{display:none;position:relative;z-index:2;text-align:center;width:100%;max-width:470px}
-#finale.show{display:block}
-.big-gem{width:150px;margin:0 auto;display:block;filter:drop-shadow(0 0 24px rgba(255,90,170,.9));animation:spin 4s linear infinite}
-.final-line{font-weight:900;font-size:1.5rem;color:var(--pink-dark);margin:10px 0 4px}
-.tag{font-size:.8rem;opacity:.75;margin-top:22px}
-#rain{position:fixed;inset:0;pointer-events:none;z-index:1;overflow:hidden}
-#rain i{position:absolute;bottom:-40px;font-style:normal;animation:up linear infinite}
-@keyframes up{to{transform:translateY(-115vh) rotate(var(--r,200deg))}}
-
+@media (max-height:600px){
+  .gemwrap{width:min(38vw,24dvh)}
+  h1{font-size:1.5rem}
+}
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
 }
@@ -148,166 +136,104 @@ button{font-family:inherit;cursor:pointer;border:0}
 </head>
 <body>
 
-<!-- shared gem artwork -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
     <linearGradient id="gg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#FFC1DC"/><stop offset=".5" stop-color="#FF6FAE"/><stop offset="1" stop-color="#C73A80"/>
+      <stop offset="0" stop-color="#ffc9e0"/><stop offset=".5" stop-color="#ff6fae"/><stop offset="1" stop-color="#b8337a"/>
     </linearGradient>
     <symbol id="gem" viewBox="0 0 100 90">
-      <polygon points="25,6 75,6 98,34 50,86 2,34" fill="url(#gg)" stroke="#D4AF37" stroke-width="3" stroke-linejoin="round"/>
+      <polygon points="25,6 75,6 98,34 50,86 2,34" fill="url(#gg)" stroke="#e6c887" stroke-width="2" stroke-linejoin="round"/>
       <polygon points="25,6 38,34 2,34" fill="#fff" opacity=".35"/>
       <polygon points="25,6 75,6 62,34 38,34" fill="#fff" opacity=".6"/>
       <polygon points="75,6 98,34 62,34" fill="#fff" opacity=".2"/>
       <polygon points="38,34 62,34 50,86" fill="#fff" opacity=".28"/>
-      <polygon points="98,34 62,34 50,86" fill="#000" opacity=".12"/>
-      <polygon points="2,34 38,34 50,86" fill="#fff" opacity=".12"/>
+      <polygon points="98,34 62,34 50,86" fill="#000" opacity=".14"/>
     </symbol>
-    <linearGradient id="hg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#FFB3D1"/><stop offset=".55" stop-color="#F0689F"/><stop offset="1" stop-color="#B83A74"/>
-    </linearGradient>
   </defs>
 </svg>
 
-<div id="bg" aria-hidden="true"></div>
-<div id="rain" aria-hidden="true"></div>
+<div class="stage" id="stage">
+  <div id="rain" aria-hidden="true"></div>
 
-<!-- ============ PAGE 1 ============ -->
-<main class="page active" id="p1">
-  <section class="card" id="card1" aria-live="polite">
-    <div class="crown">👑</div>
-    <svg class="gem-s" aria-hidden="true"><use href="#gem"/></svg>
-    <div class="typed" id="typed1"></div>
-    <button class="btn btn-gold hidden" id="go1">خب ببینم چی ساختی خانوم مهندس! 😎</button>
+  <!-- 1 · hook -->
+  <main class="scene on" id="s1">
+    <div class="gemwrap rise"><svg class="gem" viewBox="0 0 100 90" aria-hidden="true"><use href="#gem"/></svg></div>
+    <h1>حسام، یه نگین پیدا شده</h1>
+    <p class="sub">اسمشم نگینه. تصادفی نیست 😏</p>
+    <button class="btn btn-gold later" id="go1">ببینم چی ساختی خانوم مهندس 😎</button>
+  </main>
+
+  <!-- 2 · appraisal -->
+  <section class="scene" id="s2">
+    <h1>ارزیابی کارشناس</h1>
+    <p class="hint" id="hint">روی نقطه‌های طلایی بزن</p>
+    <div class="gemwrap">
+      <svg class="gem" viewBox="0 0 100 90" aria-hidden="true"><use href="#gem"/></svg>
+      <button class="spot" data-i="1" style="left:27%;top:36%" aria-label="کمیابی"></button>
+      <button class="spot" data-i="2" style="left:73%;top:36%" aria-label="مشخصات"></button>
+      <button class="spot" data-i="3" style="left:50%;top:70%" aria-label="قیمت"></button>
+    </div>
+    <div class="specs">
+      <div class="spec" id="spec1"><small>کمیابی</small><span>یکی در هشت میلیارد</span></div>
+      <div class="spec" id="spec2"><small>مشخصات</small><span>برنامه‌نویس، شیطون، گارانتی خنده</span></div>
+      <div class="spec" id="spec3"><small>قیمت</small><span>پول نیست، فقط یه عالمه محبت</span></div>
+    </div>
+    <button class="btn btn-gold later" id="go2">خب، می‌خوامش؟</button>
   </section>
-</main>
 
-<!-- ============ PAGE 2 ============ -->
-<section class="page" id="p2">
-  <div class="card">
-    <div class="box" aria-hidden="true">
-      <div class="inside"></div>
-      <div class="gemwrap"><svg viewBox="0 0 100 90"><use href="#gem"/></svg></div>
-      <div class="base"><span>🎀</span></div>
-      <div class="lid"></div>
-    </div>
-    <div class="badge rv" style="--d:1.2s">✨ SPECIAL EDITION ✨</div>
-    <p class="rv" style="--d:1.6s"><b>خب آقای حسام!</b> 😏💎</p>
-    <p class="rv" style="--d:2.1s">از اونجایی که می‌دونم حسابی به طلا و جواهر علاقه داری...</p>
-    <p class="rv" style="--d:2.6s">امروز یه پیشنهاد خیلی خاص برات دارم! 😌</p>
-    <p class="rv" style="--d:3.2s">یه نگین کمیاب، خوشگل، باهوش، مهربون و البته یه کوچولو شیطون پیدا شده!<br>اتفاقاً اسمش هم <b>نگینه</b>! 😂💗</p>
-    <ul class="feat">
-      <li class="rv" style="--d:4s">💎 اصل و کمیاب</li>
-      <li class="rv" style="--d:4.3s">🎀 خوشگل و یکم لوس</li>
-      <li class="rv" style="--d:4.6s">💻 برنامه‌نویس و باهوش</li>
-      <li class="rv" style="--d:4.9s">❤️ اهل محبت و یه رابطه واقعی</li>
-      <li class="rv" style="--d:5.2s">😂 دارای گارانتی خنده و شیطنت!</li>
-    </ul>
-    <div class="cert rv" style="--d:5.8s">
-      <h3>💎 CERTIFICATE OF AUTHENTICITY</h3>
-      <dl>
-        <dt>نام جواهر:</dt><dd>نگین</dd>
-        <dt>نوع:</dt><dd>دختر برنامه‌نویس خاص 😎</dd>
-        <dt>درجه کمیابی:</dt><dd>۱ در ۸ میلیارد</dd>
-        <dt>قیمت:</dt><dd>غیرقابل محاسبه</dd>
-        <dt>ارزش عاطفی:</dt><dd>بی‌نهایت ❤️</dd>
-        <dt>وضعیت:</dt><dd>آماده شروع یک رابطه قشنگ با حسام 😌</dd>
-      </dl>
-    </div>
-    <p class="note rv" style="--d:6.4s;margin-top:14px"><b>توجه:</b> این نگین توی هیچ طلافروشی پیدا نمی‌شه! 😎</p>
-    <button class="btn btn-gold rv" id="go2" style="--d:6.9s">خب قیمت این نگین چنده؟! 😂💎</button>
-  </div>
-</section>
-
-<!-- ============ PAGE 3 ============ -->
-<section class="page" id="p3">
-  <div class="card">
-    <div class="kicker">💎 پیشنهاد ویژه فقط برای حسام!</div>
-    <div class="heart3d" aria-hidden="true">
-      <svg viewBox="0 0 100 95">
-        <path d="M50 90C8 60 0 34 16 17 30 3 46 12 50 27 54 12 70 3 84 17 100 34 92 60 50 90Z" fill="url(#hg)" stroke="#D4AF37" stroke-width="2.5"/>
-        <ellipse cx="30" cy="27" rx="11" ry="6" fill="#fff" opacity=".6" transform="rotate(-35 30 27)"/>
-      </svg>
-    </div>
-    <p><b>خب آقای حسام!</b> 😏❤️</p>
-    <p>حالا که این نگین خاص رو پیدا کردی...</p>
-    <p>باید بدونی قیمتش پول نیست!</p>
-    <p>فقط یه عالمه عشق، توجه، صداقت و حال خوب می‌خواد! 🥹💗</p>
-    <p style="margin-top:10px">این نگین دلش می‌خواد باهات یه رابطه قشنگ و جدی بسازه؛ رابطه‌ای که توش هم رفیق هم باشین، هم عاشق هم، هم کلی با هم بخندین! ❤️</p>
-    <p class="q">می‌خوای این نگین خاص رو توی زندگیت داشته باشی؟ 😏💎</p>
+  <!-- 3 · the question -->
+  <section class="scene" id="s3">
+    <div class="gemwrap" style="width:min(34vw,20dvh)"><svg class="gem" viewBox="0 0 100 90" aria-hidden="true"><use href="#gem"/></svg></div>
+    <h1>این نگین رو می‌خوای؟</h1>
+    <div id="msg" aria-live="polite">جدی جواب بده، کارشناس رسمی هستی!</div>
     <div class="choices">
-      <button class="btn btn-pink" id="yes">🩷 معلومه که می‌خوامش! 😍</button>
-      <button class="btn btn-ghost" id="no">🤍 نه، فعلاً نمی‌خوام! 🙄</button>
+      <button class="btn btn-gold" id="yes">معلومه که می‌خوامش 😍</button>
+      <button class="btn btn-line" id="no">نه، فعلاً نه</button>
     </div>
-    <div id="msg" aria-live="assertive"></div>
-  </div>
-</section>
+  </section>
 
-<!-- ============ PAGE 4 ============ -->
-<section class="page" id="p4">
-  <div id="popup" role="dialog" aria-label="سیستم تشخیص احساسات حسام">
-    <div class="bar-title">🚨 سیستم تشخیص احساسات حسام <b><i></i><i></i><i></i></b></div>
-    <div class="pop-body">
-      <div id="scan">
-        <ul class="checks">
-          <li id="c1">❤️ بررسی میزان علاقه...</li>
-          <li id="c2">❤️ بررسی میزان لجبازی...</li>
-          <li id="c3">💎 بررسی توانایی تشخیص نگین اصل...</li>
-        </ul>
-        <div class="track"><div id="fill"></div></div>
-        <div id="pct">۰٪</div>
+  <!-- 4 · diagnosis, then finale -->
+  <section class="scene" id="s4">
+    <div id="diag" style="display:flex;flex-direction:column;align-items:center;gap:clamp(10px,2.3dvh,22px)">
+      <p class="sub">در حال بررسی احساسات حسام</p>
+      <div class="ring">
+        <svg class="r" viewBox="0 0 120 120" aria-hidden="true"><circle class="bg" cx="60" cy="60" r="54"/><circle class="fg" id="ringFill" cx="60" cy="60" r="54"/></svg>
+        <svg class="gem" viewBox="0 0 100 90" aria-hidden="true"><use href="#gem"/></svg>
       </div>
-      <div id="result">
-        <p class="res-title l" style="animation-delay:.1s">🚨 نتیجه آزمایش:</p>
-        <p class="l" style="animation-delay:.8s">حسام جان متأسفانه...</p>
-        <p class="res-main l" style="animation-delay:1.5s">شما به نگین‌دوستی شدید مبتلا شدی! 😂💎❤️</p>
-        <p class="l" style="animation-delay:2.4s">و فعلاً هیچ درمان قطعی براش پیدا نشده! 😭😂</p>
-        <p class="l" style="animation-delay:3.3s"><b>تنها راه پیشنهادی سیستم:</b><br>دوست داشتن نگین، مراقبت ازش و ساختن کلی خاطره قشنگ باهاشه! 😌💗</p>
-        <button class="btn btn-pink l" id="go4" style="animation-delay:4.3s">باشه بابا، عاشقتم نگین! 😭❤️</button>
+      <div class="swapbox">
+        <div id="scan"><p class="status" id="status">&nbsp;</p></div>
+        <div id="result" class="off" style="text-align:center">
+          <h1 class="gold">نگین‌دوستیِ مزمن</h1>
+          <p class="sub" style="margin:8px 0 18px">درمان پیشنهادی: خودِ نگین، روزی چند بار 😌</p>
+          <button class="btn btn-gold" id="go4">باشه بابا، عاشقتم 😭❤️</button>
+        </div>
       </div>
     </div>
-  </div>
 
-  <div id="finale">
-    <svg class="big-gem" viewBox="0 0 100 90" aria-hidden="true"><use href="#gem"/></svg>
-    <div class="card" style="margin-top:14px">
-      <p class="final-line">میدونستم توام دوستم داری! 🙃🥰💋</p>
-      <p style="font-weight:700;font-size:1.2rem;margin-top:14px">تبریک حسام! 🎉</p>
-      <p>شما با موفقیت یک عدد نگین اصل به دست آوردید! 💎</p>
-      <div class="cert" style="margin-top:16px">
-        <h3 style="direction:rtl">شرایط نگهداری</h3>
-        <ul class="feat" style="margin:0">
-          <li>با عشق و توجه تغذیه شود! 😂❤️</li>
-          <li>در برابر بی‌محلی بسیار حساس است! 🙄</li>
-          <li>با بغل و بوس به بهترین شکل کار می‌کند! 😌💋</li>
-        </ul>
-        <p style="text-align:center;font-weight:700;margin-top:10px">گارانتی: یک عمر شیطنت و خنده! 🎀</p>
-      </div>
-      <p class="tag">طراحی و برنامه‌نویسی با عشق توسط نگین 💻💗</p>
+    <div id="finale">
+      <div class="gemwrap gem-sm"><svg class="gem" viewBox="0 0 100 90" aria-hidden="true"><use href="#gem"/></svg></div>
+      <h1>میدونستم توام دوستم داری 🥰</h1>
+      <p class="sub">تبریک! یه نگین اصل برنده شدی 💎</p>
+      <ul class="care">
+        <li>با عشق تغذیه شود</li>
+        <li>در برابر بی‌محلی حساس است 🙄</li>
+        <li>با بغل و بوس بهترین عملکرد را دارد</li>
+        <li>گارانتی: یک عمر شیطنت و خنده</li>
+      </ul>
+      <p class="sign">ساخته‌شده با عشق، توسط نگین 💻</p>
     </div>
-  </div>
-</section>
+  </section>
+</div>
 
 <script>
 (() => {
   const $ = s => document.querySelector(s);
+  const $$ = s => document.querySelectorAll(s);
   const wait = ms => new Promise(r => setTimeout(r, ms));
-  const toFa = n => String(n).replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
+  const root = document.documentElement;
+  const buzz = ms => { try { navigator.vibrate && navigator.vibrate(ms); } catch (e) {} };
 
-  /* ---------- background diamonds ---------- */
-  const bg = $('#bg');
-  for (let i = 0; i < 16; i++) {
-    const s = document.createElement('i');
-    s.textContent = '◆';
-    s.style.left = Math.random() * 100 + '%';
-    s.style.top = (60 + Math.random() * 60) + '%';
-    s.style.fontSize = (7 + Math.random() * 10) + 'px';
-    s.style.animationDuration = (16 + Math.random() * 22) + 's';
-    s.style.animationDelay = (-Math.random() * 30) + 's';
-    bg.appendChild(s);
-  }
-
-  /* ---------- sound (no audio files needed) ---------- */
+  /* ---------- sound: soft chime, no audio files ---------- */
   let ctx;
   function chime() {
     try {
@@ -317,7 +243,7 @@ button{font-family:inherit;cursor:pointer;border:0}
         o.type = 'sine'; o.frequency.value = f;
         const t = ctx.currentTime + i * 0.11;
         g.gain.setValueAtTime(0.0001, t);
-        g.gain.exponentialRampToValueAtTime(0.18, t + 0.02);
+        g.gain.exponentialRampToValueAtTime(0.16, t + 0.02);
         g.gain.exponentialRampToValueAtTime(0.0001, t + 0.5);
         o.connect(g).connect(ctx.destination);
         o.start(t); o.stop(t + 0.55);
@@ -326,156 +252,112 @@ button{font-family:inherit;cursor:pointer;border:0}
   }
 
   /* ---------- sparkles ---------- */
-  function burst(el, n = 12) {
+  function burst(el, n = 10) {
     const r = el.getBoundingClientRect();
     const x = r.left + r.width / 2, y = r.top + r.height / 2;
-    const chars = ['✨', '⭐', '💎', '✦'];
     for (let i = 0; i < n; i++) {
       const s = document.createElement('span');
-      s.className = 'fx';
-      s.textContent = chars[i % chars.length];
+      s.className = 'fx'; s.textContent = i % 3 ? '✦' : '💎';
       s.style.left = x + 'px'; s.style.top = y + 'px';
-      const a = Math.random() * Math.PI * 2, d = 60 + Math.random() * 90;
+      const a = Math.random() * Math.PI * 2, d = 50 + Math.random() * 80;
       s.style.setProperty('--dx', Math.cos(a) * d + 'px');
       s.style.setProperty('--dy', Math.sin(a) * d + 'px');
       document.body.appendChild(s);
-      setTimeout(() => s.remove(), 1000);
+      setTimeout(() => s.remove(), 950);
     }
   }
 
-  /* ---------- page switching ---------- */
-  const enter = { 2: () => {}, 3: () => {}, 4: runScan };
+  /* ---------- scenes ---------- */
   function go(n) {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    $('#p' + n).classList.add('active');
-    window.scrollTo(0, 0);
-    enter[n] && enter[n]();
+    $$('.scene').forEach(s => s.classList.remove('on'));
+    $('#s' + n).classList.add('on');
+    if (n === 4) runDiagnosis();
   }
 
-  /* ---------- page 1: typing ---------- */
-  let skip = false;
-  async function typeInto(el, text, speed = 30) {
-    el.classList.add('caret');
-    const chars = Array.from(text);
-    for (let i = 1; i <= chars.length; i++) {
-      if (skip) { el.textContent = text; break; }
-      el.textContent = chars.slice(0, i).join('');
-      await wait(speed);
+  /* 1 */
+  setTimeout(() => $('#go1').classList.add('show'), 1700);
+  $('#go1').addEventListener('click', e => { burst(e.currentTarget); chime(); setTimeout(() => go(2), 350); });
+
+  /* 2: find the three golden points */
+  const found = new Set();
+  $$('.spot').forEach(b => b.addEventListener('click', () => {
+    const i = b.dataset.i;
+    if (found.has(i)) return;
+    found.add(i); buzz(12);
+    b.classList.add('done');
+    $('#spec' + i).classList.add('show');
+    if (found.size === 3) {
+      $('#hint').textContent = 'گواهی اصالت صادر شد ✅';
+      setTimeout(() => $('#go2').classList.add('show'), 500);
     }
-    el.classList.remove('caret');
-  }
-  const lines1 = [
-    'سلاممم آقای حسام! 😎💎',
-    'چطوری؟ خوش می‌گذره تو دنیای طلا و جواهر؟ 😂✨',
-    'فکر نکنی فقط خودت بلدی چیزای خفن و قشنگ درست کنی‌هااا!',
-    'اینجا هم یه خانوم برنامه‌نویس داریم که کلی استعداد داره! 😌💻',
-    'مثلاً یکیش همین چیزیه که الان داری می‌بینی!',
-    'البته اینو فقط برای یه نفر خاص ساختم...',
-    'حالا ببینیم اون یه نفر چقدر خوش‌شانسه! 😏💗'
-  ];
-  async function intro() {
-    const box = $('#typed1');
-    $('#card1').addEventListener('click', () => { skip = true; });
-    for (const line of lines1) {
-      const p = document.createElement('p');
-      box.appendChild(p);
-      await typeInto(p, line);
-      if (!skip) await wait(380);
-    }
-    const b = $('#go1');
-    b.classList.add('show');
-  }
-  $('#go1').addEventListener('click', e => { burst(e.currentTarget, 14); chime(); setTimeout(() => go(2), 450); });
-  intro();
+  }));
+  $('#go2').addEventListener('click', e => { burst(e.currentTarget); setTimeout(() => go(3), 350); });
 
-  /* ---------- page 2 ---------- */
-  $('#go2').addEventListener('click', e => { burst(e.currentTarget, 14); setTimeout(() => go(3), 450); });
-
-  /* ---------- page 3: the "no" button ---------- */
-  const msgs = [
-    'حسام؟ اشتباهی زدی؟ 😂',
-    'شما که جواهرشناس بودی! 😐💎',
-    'نگین اصل رو داری رد می‌کنی؟! 😭',
-    'هشدار! سطح لجبازی حسام بالا رفت! 🚨',
-    'داداش این نگین تخفیف هم نمی‌خواد! 😂',
-    'دکمه آره داره کل صفحه رو می‌گیره! 😈',
-    'خب دیگه! معلومه که می‌خوایش! 😎💋'
+  /* 3: every "no" sweetens the deal; the story never loops back */
+  const offers = [
+    'اشتباه زدی؟ تو که نگین‌شناسی 😅',
+    'تخفیف ویژه: یه بغل رایگان ✨',
+    'آخرین پیشنهاد: بوس هم قاطیشه 🙈',
+    'دکمه «نه» خراب شد 🔧'
   ];
-  let noCount = 0;
   const yes = $('#yes'), no = $('#no'), msg = $('#msg');
-  no.addEventListener('click', () => {
-    noCount = Math.min(noCount + 1, 7);
-    msg.textContent = msgs[noCount - 1];
-    msg.classList.remove('pop'); void msg.offsetWidth; msg.classList.add('pop');
-    if (noCount < 7) {
-      yes.style.fontSize = (1.05 + noCount * 0.32) + 'rem';
-      yes.style.padding = (14 + noCount * 8) + 'px ' + (26 + noCount * 8) + 'px';
-      if (noCount >= 3) yes.style.width = '100%';
-      no.style.fontSize = Math.max(0.6, 1.05 - noCount * 0.08) + 'rem';
-      no.style.opacity = Math.max(0.4, 1 - noCount * 0.1);
+  let n = 0;
+  function say(t) {
+    msg.textContent = t;
+    msg.classList.remove('swap'); void msg.offsetWidth; msg.classList.add('swap');
+  }
+  function choose(e) {
+    burst(e.currentTarget, 14); chime(); buzz(25);
+    setTimeout(() => go(4), 450);
+  }
+  yes.addEventListener('click', choose);
+  no.addEventListener('click', e => {
+    if (n >= offers.length) return choose(e);
+    n++; buzz(10);
+    say(offers[n - 1]);
+    root.style.setProperty('--glow', n / offers.length);
+    yes.style.transform = 'scale(' + (1 + n * 0.035) + ')';
+    if (n < offers.length) {
+      no.style.opacity = String(1 - n * 0.14);
     } else {
-      no.style.display = 'none';
-      const c = $('#p3 .card');
-      c.style.backdropFilter = 'none'; c.style.webkitBackdropFilter = 'none';
-      yes.classList.add('full');
-      msg.classList.add('over');
+      no.style.opacity = '1';
+      no.textContent = 'باشه، بله 😌';
+      no.classList.add('flip');
     }
-  });
-  yes.addEventListener('click', e => {
-    burst(e.currentTarget, 18); chime();
-    setTimeout(() => {
-      yes.classList.remove('full'); msg.classList.remove('over');
-      go(4);
-    }, 500);
   });
 
-  /* ---------- page 4: scan, result, finale ---------- */
-  async function runScan() {
-    const dark = $('#dark') || (() => {
-      const d = document.createElement('div'); d.id = 'dark'; $('#p4').appendChild(d); return d;
-    })();
-    await wait(60);
-    dark.classList.add('on');
-    await wait(1000);
-    $('#popup').classList.add('show');
-    const rows = [$('#c1'), $('#c2'), $('#c3')];
-    for (let p = 0; p <= 100; p++) {
-      $('#fill').style.width = p + '%';
-      $('#pct').textContent = toFa(p) + '٪';
-      const stage = p < 34 ? 0 : p < 67 ? 1 : 2;
-      rows.forEach((r, i) => {
-        r.classList.toggle('on', i <= stage);
-        r.classList.toggle('done', i < stage);
-      });
-      await wait(34);
-    }
-    rows[2].classList.add('done');
-    await wait(600);
-    $('#scan').style.display = 'none';
-    $('#result').classList.add('show');
+  /* 4: quick "scan", then the confession */
+  async function runDiagnosis() {
+    const steps = ['میزان علاقه…', 'میزان لجبازی…', 'تشخیص نگین اصل…'];
+    const ring = $('#ringFill');
+    ring.style.transition = 'stroke-dashoffset 2.7s linear';
+    requestAnimationFrame(() => requestAnimationFrame(() => ring.style.strokeDashoffset = 0));
+    for (const t of steps) { $('#status').textContent = t; await wait(900); }
+    $('#scan').classList.add('off');
+    $('#result').classList.remove('off');
   }
   $('#go4').addEventListener('click', e => {
-    burst(e.currentTarget, 20); chime();
+    burst(e.currentTarget, 16); chime();
     setTimeout(() => {
-      $('#popup').style.display = 'none';
-      $('#dark').classList.remove('on');
+      $('#diag').classList.add('gone');
       $('#finale').classList.add('show');
-      rain();
-      chime();
-    }, 450);
+      root.style.setProperty('--glow', 1);
+      hearts();
+    }, 400);
   });
 
-  function rain() {
+  function hearts() {
     const r = $('#rain');
-    const chars = ['💗', '🩷', '✨', '💎', '⭐', '💖'];
-    for (let i = 0; i < 70; i++) {
+    const chars = ['♥', '✦', '♥', '◆'];
+    for (let i = 0; i < 16; i++) {
       const s = document.createElement('i');
       s.textContent = chars[i % chars.length];
       s.style.left = Math.random() * 100 + '%';
-      s.style.fontSize = (14 + Math.random() * 24) + 'px';
-      s.style.animationDuration = (6 + Math.random() * 8) + 's';
+      s.style.fontSize = (12 + Math.random() * 14) + 'px';
+      s.style.color = i % 2 ? '#ff7ab3' : '#e6c887';
+      s.style.animationDuration = (9 + Math.random() * 8) + 's';
       s.style.animationDelay = (-Math.random() * 12) + 's';
-      s.style.setProperty('--r', (Math.random() * 360 - 180) + 'deg');
+      s.style.setProperty('--r', (Math.random() * 240 - 120) + 'deg');
       r.appendChild(s);
     }
   }
