@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>یه سوال برای حسام 💗</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;min-height:100dvh;display:grid;place-items:center;overflow:hidden;font-family:Tahoma,Arial,sans-serif;text-align:center;background:linear-gradient(140deg,#ffe9f2,#ffc7df,#ffaed3);color:#bd316d}
+.card{position:relative;z-index:2;width:min(92vw,440px);padding:32px 17px;min-height:350px;border:2px solid #fff9;background:rgba(255,255,255,.9);border-radius:26px;box-shadow:0 16px 45px #cc438633}
+.page{width:100%}.hidden{display:none!important}
+h1{font-size:clamp(21px,5.3vw,27px);line-height:1.9;margin:10px 0 16px}p{font-size:15px;line-height:1.9}.emoji{font-size:55px;animation:pulse 1.5s infinite}.subtitle{margin:0 0 12px}
+button{font:inherit;cursor:pointer;border:0;border-radius:14px;touch-action:manipulation;transition:font-size .2s,padding .2s,transform .2s}button:active{transform:scale(.97)}
+.start,.ok{background:#fa478e;color:#fff;padding:15px 22px;box-shadow:0 6px 15px #f7478b44}
+.buttons{display:flex;align-items:center;justify-content:center;gap:13px;margin-top:20px;flex-wrap:wrap;min-height:90px}
+#yesBtn{background:#ff458d;color:white;font-size:20px;padding:14px 22px;max-width:95vw;position:relative;z-index:3}
+#noBtn{background:#f3edf0;color:#6f5360;font-size:17px;padding:12px 20px;position:relative;z-index:4}
+#funnyText{min-height:28px;font-size:14px;margin:12px 0 0}
+.overlay{position:fixed;inset:0;z-index:20;background:#3a102966;display:grid;place-items:center;padding:20px}
+.popup{width:min(92vw,360px);padding:25px 18px 22px;border-radius:20px;background:#fff7fa;box-shadow:0 15px 45px #631d4f44;animation:appear .25s ease-out}
+.popup .emoji{font-size:48px}.popup h2{font-size:22px;line-height:1.8;margin:12px 0 24px}
+#final .emoji{font-size:70px}.heart{position:fixed;bottom:-55px;pointer-events:none;z-index:10;animation:rise linear forwards;will-change:transform,opacity}
+@keyframes pulse{50%{transform:scale(1.15)}}@keyframes appear{from{transform:scale(.8);opacity:0}to{transform:scale(1);opacity:1}}@keyframes rise{from{transform:translate3d(0,0,0) rotate(0deg);opacity:1}to{transform:translate3d(var(--drift),-115vh,0) rotate(35deg);opacity:0}}
+@media(max-width:360px){.card{padding:25px 12px}.buttons{gap:8px}}
+</style>
+</head>
+<body>
+<main class="card">
+<section class="page" id="welcome"><div class="emoji">💗</div><h1>سلام حسام 💕</h1><p>یه چیزی هست که می‌خوام ازت بپرسم...</p><button class="start" onclick="startGame()">بزن ببین چی میگم 💌</button></section>
+<section class="page hidden" id="question"><div class="emoji">🥹💗</div><h1>دوست دختر برنامه نویس خفن جذاب خوشگل مهربون، برای یک عمر خوشبختی میخوای؟ 😃❤️</h1><p class="subtitle">قشنگ فکراتو بکن! 😌💕</p><div class="buttons"><button id="yesBtn" onclick="sayYes()">آره 💖</button><button id="noBtn" onclick="sayNo()">نه 🙄</button></div><p id="funnyText" aria-live="polite"></p></section>
+<section class="page hidden" id="final"><div class="emoji">🙃🥰💋</div><h1>میدونستم توام دوستم داری! 🙃🥰💋</h1><p>حالا دیگه راه برگشتی نداری! 😌💖</p><div class="emoji">💗</div></section>
+</main>
+<div id="dialog" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="dialogTitle"><div class="popup"><div class="emoji">🙃🥰💋</div><h2 id="dialogTitle">میدونستم توام دوستم داری! 🙃🥰💋</h2><button id="okBtn" class="ok" onclick="confirmLove()">OK 💗</button></div></div>
+<script>
+let clicks=0;
+let heartTimer;
+const messages=['مطمئنی؟ 🥺','یه بار دیگه فکر کن 😌','نه نزن دیگه 😭💗','آره رو بزن دیگه 😏','دیگه داره تابلو میشه 🙄💕','خب معلومه میخوای 😌❤️','من که میدونم آره‌ست 😎💖'];
+const get=id=>document.getElementById(id);
+function startGame(){get('welcome').classList.add('hidden');get('question').classList.remove('hidden')}
+function sayNo(){clicks++;const yes=get('yesBtn'),no=get('noBtn');yes.style.fontSize=Math.min(20+clicks*7,65)+'px';yes.style.padding=Math.min(14+clicks*5,50)+'px '+Math.min(22+clicks*7,68)+'px';no.style.fontSize=Math.max(9,17-clicks*1.5)+'px';no.style.padding=Math.max(4,12-clicks)+'px '+Math.max(5,20-clicks*2)+'px';get('funnyText').textContent=messages[Math.min(clicks-1,messages.length-1)]}
+function sayYes(){get('dialog').classList.remove('hidden');get('okBtn').focus()}
+function confirmLove(){get('dialog').classList.add('hidden');get('question').classList.add('hidden');get('final').classList.remove('hidden');for(let i=0;i<45;i++)setTimeout(makeHeart,i*65);heartTimer=setInterval(makeHeart,550)}
+function makeHeart(){const el=document.createElement('span');el.className='heart';const emojis=['💗','💕','💖','❤️','🥰','💋','🌸'];el.textContent=emojis[Math.floor(Math.random()*emojis.length)];el.style.left=Math.random()*95+'vw';el.style.fontSize=18+Math.random()*24+'px';el.style.animationDuration=3+Math.random()*3+'s';el.style.setProperty('--drift',(Math.random()-.5)*130+'px');document.body.appendChild(el);el.addEventListener('animationend',()=>el.remove(),{once:true})}
+</script>
+</body>
+</html>
